@@ -1,0 +1,54 @@
+version: "3.1"
+
+networks:
+  db-net:
+    external: true
+
+services:    
+    ### PostgreSQL Container (MASTER) #
+    master:
+      restart: always
+      build: ./db/master
+      volumes:
+        - master_vol:/var/lib/postgresql
+        - "/etc/localtime:/etc/localtime"
+      ports:
+        - "5434:5432"
+      env_file:
+        - ./db/master/.master.env
+      networks:
+        - db-net  
+
+    ### PostgreSQL Container (SLAVE) #
+    slave:
+      restart: always
+      build: ./db/slave
+      volumes:
+        - slave_vol:/var/lib/postgresql
+        - "/etc/localtime:/etc/localtime"
+      ports:
+        - "5435:5432"
+      links:
+        - master:master
+      env_file:
+        - ./db/slave/.slave.env
+      networks:
+        - db-net
+    
+    ### pgAdmin Container (Master) #######################################
+    pgadmin:
+      build: ./db/pgadmin
+      ports:
+        - "5051:5051"
+      env_file:
+        - ./db/pgadmin/.pg4.env
+      links:
+        - master
+      networks:
+        - db-net
+
+volumes:
+  master_vol:
+    driver: "local"
+  slave_vol:
+    driver: "local"
