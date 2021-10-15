@@ -3,3 +3,4 @@ POSTGRES DATABASES
 - SLAVE (LEITURA)
 - PGADMIN4 - (TEST)
 items
+outro intem
