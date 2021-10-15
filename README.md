@@ -2,5 +2,5 @@ POSTGRES DATABASES
 - MASTER (ESCRITA) 
 - SLAVE (LEITURA)
 - PGADMIN4 - (TEST)
-items
-outro intem
+
+- Precisamos lançar um release now
